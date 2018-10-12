@@ -15,13 +15,9 @@ object ToDateUDF {
 
   @Description("to_date(UDF impala function)")
   @ScalarFunction("to_date")
-  @SqlType(StandardTypes.DATE)
-  def toDate(@SqlNullable @SqlType(StandardTypes.TIMESTAMP) date: Slice): Slice = {
-    if (date == null || date.toStringUtf8.isEmpty) {
-      utf8Slice("empty date")
-    } else {
-      val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
-      utf8Slice(dateFormat.format(date))
-    }
+  @SqlType(StandardTypes.VARCHAR)
+  def toDate(@SqlType(StandardTypes.TIMESTAMP) date: Long): Slice = {
+    val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+    utf8Slice(dateFormat.format(date))
   }
 }
