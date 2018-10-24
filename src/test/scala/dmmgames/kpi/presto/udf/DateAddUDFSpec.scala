@@ -16,7 +16,7 @@ class DateAddUDFSpec extends FlatSpec with DiagrammedAssertions {
   }
 
   it should "文字列2018-01-01 10:00:00を渡した場合unixtimeが変えること" in {
-    val date = dateAdd.impalaFuncDateAddFieldToString(utf8Slice("2018-01-01 10:00:00"),1)
-    assert(date == 1514854800)
+    val date : Long = dateAdd.impalaFuncDateAddFieldToString(utf8Slice("2018-01-01 10:00:00"), 1)
+    assert(date / 1000 == 1514854800)
   }
 }

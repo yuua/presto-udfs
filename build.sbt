@@ -1,4 +1,4 @@
-name := "to_date"
+name := "presto-scala-udfs"
 
 version := "1.0"
 
