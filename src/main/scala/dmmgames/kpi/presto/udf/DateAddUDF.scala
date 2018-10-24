@@ -19,33 +19,30 @@ import io.airlift.slice.Slice
 
 object DateAddUDF {
 
-  val chro = ISOChronology.getInstanceUTC()
-  val unixTimeFormat = "yyyy-MM-dd HH:mm:ss"
-  val dateFormat = "yyyy-MM-dd"
+  val chronology = ISOChronology.getInstance()
 
   @Description("date_add(<<date1> , <<long1>>)")
   @ScalarFunction("date_add")
   @SqlType(StandardTypes.TIMESTAMP)
   def impalaFuncDateAdd(@SqlType(StandardTypes.DATE) date: Long,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
-    chro.dayOfMonth().add(DAYS.toMillis(date), toIntExact(addDay))
-//    MILLISECONDS.toDays(millis)
+    chronology.dayOfMonth().add(DAYS.toMillis(date), toIntExact(addDay))
   }
 
-  @Description("date_add(<<date1> , <<long1>>)")
+  @Description("date_add(<<timestamp1> , <<long1>>)")
   @ScalarFunction("date_add")
   @SqlType(StandardTypes.TIMESTAMP)
   def impalaFuncUnixTimeAdd(@SqlType(StandardTypes.TIMESTAMP) date: Long,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
-    chro.dayOfMonth().add(date, toIntExact(addDay))
+    chronology.dayOfMonth().add(date, toIntExact(addDay))
   }
 
   @Description("date_add(<<varchar1>> , <<long1>>)")
   @ScalarFunction("date_add")
   @SqlType(StandardTypes.TIMESTAMP)
   def impalaFuncDateAddFieldToString(@SqlType(StandardTypes.VARCHAR) date: Slice,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
-    val localTimeUnix = if (dateFormatPattern(date.toStringUtf8)) {
-      LocalDateTime.parse(date.toStringUtf8,DateTimeFormatter.ofPattern(unixTimeFormat)).plusDays(addDay).atZone(ZoneId.systemDefault).toEpochSecond
+    val localTimeUnix = if (DateHelper.dateFormatPattern(date.toStringUtf8)) {
+      LocalDateTime.parse(date.toStringUtf8,DateTimeFormatter.ofPattern(DateHelper.unixTimeFormat)).plusDays(addDay).atZone(ZoneId.systemDefault).toEpochSecond
     } else {
-      LocalDate.parse(date.toStringUtf8,DateTimeFormatter.ofPattern(dateFormat)).plusDays(addDay).atStartOfDay(ZoneId.systemDefault).toEpochSecond
+      LocalDate.parse(date.toStringUtf8,DateTimeFormatter.ofPattern(DateHelper.dateFormat)).plusDays(addDay).atStartOfDay(ZoneId.systemDefault).toEpochSecond
     }
     MILLISECONDS.toMicros(localTimeUnix)
   }
@@ -59,17 +56,5 @@ object DateAddUDF {
 //    val millis = chro.dayOfMonth().add(MILLISECONDS.toMicros(localTimeUnix), toIntExact(addDay))
 //    MILLISECONDS.toDays(millis)
 //  }
-
-  private
-  def dateFormatPattern(date: String): Boolean =  {
-    try {
-      LocalDateTime.parse(date,DateTimeFormatter.ofPattern(unixTimeFormat))
-      true
-    } catch {
-      case e: java.time.format.DateTimeParseException => {
-        false
-      }
-    }
-  }
 
 }
