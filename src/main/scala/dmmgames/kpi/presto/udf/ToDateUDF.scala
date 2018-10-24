@@ -15,7 +15,7 @@ import io.airlift.slice.Slices.utf8Slice
 
 object ToDateUDF {
 
-  @Description("to_date(UDF impala function)")
+  @Description("to_date(<<timestamp1>>)")
   @ScalarFunction("to_date")
   @SqlType(StandardTypes.VARCHAR)
   def toDate(@SqlType(StandardTypes.TIMESTAMP) date: Long): Slice = {

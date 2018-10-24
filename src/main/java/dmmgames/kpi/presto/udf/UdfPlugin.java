@@ -16,6 +16,7 @@ public class UdfPlugin implements Plugin {
         return ImmutableSet.<Class<?>>builder()
                 .add(ToDateUDF.class)
                 .add(DateAddUDF.class)
+                .add(DateSubUDF.class)
                 .build();
     }
 }
