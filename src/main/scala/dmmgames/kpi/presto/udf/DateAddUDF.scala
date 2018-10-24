@@ -25,10 +25,17 @@ object DateAddUDF {
 
   @Description("date_add(<<date1> , <<long1>>)")
   @ScalarFunction("date_add")
-  @SqlType(StandardTypes.DATE)
+  @SqlType(StandardTypes.TIMESTAMP)
   def impalaFuncDateAdd(@SqlType(StandardTypes.DATE) date: Long,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
-    val millis = chro.dayOfMonth().add(DAYS.toMillis(date), toIntExact(addDay))
-    MILLISECONDS.toDays(millis)
+    chro.dayOfMonth().add(DAYS.toMillis(date), toIntExact(addDay))
+//    MILLISECONDS.toDays(millis)
+  }
+
+  @Description("date_add(<<date1> , <<long1>>)")
+  @ScalarFunction("date_add")
+  @SqlType(StandardTypes.TIMESTAMP)
+  def impalaFuncUnixTimeAdd(@SqlType(StandardTypes.TIMESTAMP) date: Long,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
+    chro.dayOfMonth().add(date, toIntExact(addDay))
   }
 
   @Description("date_add(<<varchar1>> , <<long1>>)")
