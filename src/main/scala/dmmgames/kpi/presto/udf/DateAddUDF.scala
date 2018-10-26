@@ -5,6 +5,7 @@ package dmmgames.kpi.presto.udf
   */
 import java.util.concurrent.TimeUnit.{DAYS,MILLISECONDS}
 import org.joda.time.chrono.ISOChronology
+import org.joda.time.DateTimeZone
 import java.lang.Math.toIntExact
 
 import java.time.LocalDate
@@ -19,7 +20,7 @@ import io.airlift.slice.Slice
 
 object DateAddUDF {
 
-  val chronology = ISOChronology.getInstance()
+  val chronology = ISOChronology.getInstance(DateTimeZone.forID("Asia/Tokyo"))
 
   @Description("date_add(<<date1> , <<long1>>)")
   @ScalarFunction("date_add")
