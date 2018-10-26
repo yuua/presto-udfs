@@ -11,9 +11,9 @@ class DateSubUDFSpec extends FlatSpec with DiagrammedAssertions {
 
   val dateSub = dmmgames.kpi.presto.udf.DateSubUDF
 
-  it should "2018-01-01の1日後は2018-01-02を返す" in {
+  it should "2018-01-01の1日後は2018-12-31を返す" in {
     val date = dateSub.impalaFuncDateSub(17531,1)
-    assert(date / 1000 == 1514592000)
+    assert(date / 1000 == 1514559600)
   }
 
   it should "2018-01-01 10:00:00の1日後は2018-02-28 10:00:00を返す" in {

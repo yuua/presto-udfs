@@ -12,7 +12,7 @@ class DateAddUDFSpec extends FlatSpec with DiagrammedAssertions {
 
   it should "2018-01-01の1日後は2018-01-02を返す" in {
     val date = dateAdd.impalaFuncDateAdd(17531,1)
-    assert(date / 1000 == 1514764800)
+    assert(date / 1000 == 1514732400)
   }
 
   it should "2018-01-01 10:00:00の1日後は2018-01-02 10:00:00を返す" in {

@@ -26,7 +26,7 @@ object DateSubUDF {
   @ScalarFunction("date_sub")
   @SqlType(StandardTypes.TIMESTAMP)
   def impalaFuncDateSub(@SqlType(StandardTypes.DATE) date: Long,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
-    chronology.dayOfMonth().add(DAYS.toMillis(date), toIntExact(-addDay))
+    chronology.dayOfMonth().add(DAYS.toMillis(date) - 32400000 , toIntExact(-addDay))
   }
 
   @Description("date_sub(<<timestamp1> , <<long1>>)")

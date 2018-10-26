@@ -26,7 +26,7 @@ object DateAddUDF {
   @ScalarFunction("date_add")
   @SqlType(StandardTypes.TIMESTAMP)
   def impalaFuncDateAdd(@SqlType(StandardTypes.DATE) date: Long,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
-    chronology.dayOfMonth().add(DAYS.toMillis(date), toIntExact(addDay))
+    chronology.dayOfMonth().add(DAYS.toMillis(date) - 32400000, toIntExact(addDay))
   }
 
   @Description("date_add(<<timestamp1> , <<long1>>)")
