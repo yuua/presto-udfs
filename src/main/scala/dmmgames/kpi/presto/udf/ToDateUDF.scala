@@ -24,6 +24,14 @@ object ToDateUDF {
     utf8Slice(dateFormat.format(date))
   }
 
+  @Description("to_date(<<timestamp1>>)")
+  @ScalarFunction("to_date")
+  @SqlType(StandardTypes.VARCHAR)
+  def timeZoneToDate(@SqlType(StandardTypes.TIMESTAMP_WITH_TIME_ZONE) date: Long): Slice = {
+    val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+    utf8Slice(dateFormat.format(date >> 12))
+  }
+
   @Description("to_date(<<varchar1>>)")
   @ScalarFunction("to_date")
   @SqlType(StandardTypes.VARCHAR)

@@ -33,7 +33,14 @@ object DateSubUDF {
   @ScalarFunction("date_sub")
   @SqlType(StandardTypes.TIMESTAMP)
   def impalaFuncUnixTimeSub(@SqlType(StandardTypes.TIMESTAMP) date: Long,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
-    chronology.dayOfMonth().add(date, toIntExact(-addDay))
+    chronology.dayOfMonth().add(date , toIntExact(-addDay))
+  }
+
+  @Description("date_sub(<<timestamp1> , <<long1>>)")
+  @ScalarFunction("date_sub")
+  @SqlType(StandardTypes.TIMESTAMP)
+  def impalaFuncUnixTimeZoneSub(@SqlType(StandardTypes.TIMESTAMP_WITH_TIME_ZONE) date: Long,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
+    chronology.dayOfMonth().add((date >> 12), toIntExact(-addDay))
   }
 
   @Description("date_sub(<<varchar1>> , <<long1>>)")

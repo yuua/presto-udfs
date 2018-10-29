@@ -36,6 +36,13 @@ object DateAddUDF {
     chronology.dayOfMonth().add(date, toIntExact(addDay))
   }
 
+  @Description("date_add(<<timestamp1> , <<long1>>)")
+  @ScalarFunction("date_add")
+  @SqlType(StandardTypes.TIMESTAMP)
+  def impalaFuncUnixTimeZoneAdd(@SqlType(StandardTypes.TIMESTAMP_WITH_TIME_ZONE) date: Long,@SqlType(StandardTypes.BIGINT) addDay: Long): Long = {
+    chronology.dayOfMonth().add((date >> 12), toIntExact(addDay))
+  }
+
   @Description("date_add(<<varchar1>> , <<long1>>)")
   @ScalarFunction("date_add")
   @SqlType(StandardTypes.TIMESTAMP)
